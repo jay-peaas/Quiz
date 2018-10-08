@@ -34,6 +34,8 @@ class Session implements Base\ISession {
         if (isset($_SESSION[$key]))
         {
             return $_SESSION[$key]; 
+        }else{
+            return '';
         }
         return false;
      }
@@ -65,6 +67,9 @@ class Session implements Base\ISession {
     
     public function regenerate() 
     {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         return session_regenerate_id();
     }
 
@@ -73,6 +78,8 @@ class Session implements Base\ISession {
         $sql = \ORM::for_table('sessions')->find_one($id);
         if ($sql) {
             return $sql->data;
+        }else{
+            return '';
         }
     }
 
@@ -118,5 +125,7 @@ class Session implements Base\ISession {
         
         return true;
     }
+   
+
 
 }
